@@ -11,13 +11,7 @@ import {
 import SessionRow from "../components/SessionRow";
 
 import PouchDB from "pouchdb-react-native";
-//import Moment from "react-moment";
-//import "moment-timezone";
-import _ from "lodash";
-
-const localDB = new PouchDB("mydb", { revs_limit: 1, auto_compaction: true });
-const remoteDB = new PouchDB("http://localhost:5984/cs-test");
-//const remoteDB = new PouchDB("http://153.42.136.45:5984/cs-test");
+//import _ from "lodash";
 
 const syncStates = [
   "change",
@@ -33,6 +27,17 @@ const keyExtractor = ({ _id }) => _id;
 export default class Sessions extends Component {
   constructor(props) {
     super(props);
+
+    this.localDB = new PouchDB("mydb", {
+      revs_limit: 1,
+      auto_compaction: true
+    });
+    this.remoteDB = new PouchDB("http://localhost:5984/cs-test");
+
+    this.sync = this.localDB.sync(this.remoteDB, {
+      live: true,
+      retry: true
+    });
 
     this.state = {
       docs: [],
@@ -82,18 +87,32 @@ export default class Sessions extends Component {
       docs: sortedState
     });
   }
+
   removeDoc(oldDoc) {
     this.setState({
       docs: this.state.docs.filter(doc => doc._id !== oldDoc._id)
     });
   }
 
-  componentDidMount() {
-    this.refreshData();
+  closeConnection() {
+    this.sync.cancel();
+    this.localDB.close();
+    this.remoteDB.close();
+    this.sync = null;
+    this.localDB = null;
+    this.remoteDB = null;
   }
 
-  refreshData() {
-    localDB
+  componentDidMount() {
+    this.displayData();
+  }
+
+  componentWillUnmount() {
+    this.closeConnection();
+  }
+
+  displayData() {
+    this.localDB
       .allDocs({ include_docs: true })
       .then(results => {
         this.setState({
@@ -106,13 +125,15 @@ export default class Sessions extends Component {
       })
       .catch(err => console.log.bind(console, "[Fetch all]"));
 
-    const sync = localDB.sync(remoteDB, {
+    /*
+    const sync = this.localDB.sync(this.remoteDB, {
       live: true,
       retry: true
     });
+*/
 
     syncStates.forEach(state => {
-      sync.on(state, setCurrentState.bind(this, state));
+      this.sync.on(state, setCurrentState.bind(this, state));
 
       function setCurrentState(state) {
         console.log("[Sync:" + state + "]");
@@ -123,7 +144,13 @@ export default class Sessions extends Component {
       }
     });
 
-    localDB
+    if (this.syncStatus === "change") {
+      this.refreshData();
+    }
+  }
+
+  refreshData() {
+    this.localDB
       .changes({
         live: true,
         include_docs: true
@@ -131,6 +158,8 @@ export default class Sessions extends Component {
       .on("change", this.handleChange.bind(this))
       .on("complete", console.log.bind(console, "[Change:Complete]"))
       .on("error", console.log.bind(console, "[Change:Error]"));
+
+    //this.displayData();
   }
 
   renderSessionRow = ({ item }) => {
@@ -166,7 +195,9 @@ export default class Sessions extends Component {
   };
 
   onDocRemove(oldDoc) {
-    localDB.remove(oldDoc).catch(console.log.bind(console, "Error removing"));
+    this.localDB
+      .remove(oldDoc)
+      .catch(console.log.bind(console, "Error removing"));
   }
 
   handleChange(change) {
@@ -208,6 +239,6 @@ const styles = StyleSheet.create({
   listcontainer: {
     backgroundColor: "white",
     //flex: 1,
-    width: 400
+    width: 380
   }
 });

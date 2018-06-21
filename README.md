@@ -14,7 +14,7 @@ Here is an example document with the fields I'm using if you want to play around
       "id": "300",
       "title": "Introduction to Laravel, WOOT! ",
       "instructors": "Jonathan Wheat, JCMP Labs / Messiah College|",
-      "body": "Jonathan will be introducing Laravel, the amazing PHP framework, walk you through what you need to know to get a web app build quickly.  Whether you're a PHP developer or not, you'll walk away with your mouth wide open, and drool runningn down  your chin at the utter awesomeness of this framework and how simple it makes the regular tasks of developing a PHP application.",
+      "body": " ",
       "room": "Majestic II",
       "start_date": "2019-11-20",
       "start_time": "10:00:00",
