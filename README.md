@@ -6,6 +6,28 @@ I've chosen a conference application to experiment with because I have a lot of 
 
 This currently attaches to a couchDB server runnign on my laptop, so you most likely wont' be able to run this on your own unless you create on that mimics mine - which is probably a simple thing to do.
 
+Here is an example document with the fields I'm using if you want to play around and create a couchDB on your system
+
+    {
+      "_id": "300",
+      "_rev": "52-964382295e201381613da33ef975e0f5",
+      "id": "300",
+      "title": "Introduction to Laravel, WOOT! ",
+      "instructors": "Jonathan Wheat, JCMP Labs / Messiah College|",
+      "body": "Jonathan will be introducing Laravel, the amazing PHP framework, walk you through what you need to know to get a web app build quickly.  Whether you're a PHP developer or not, you'll walk away with your mouth wide open, and drool runningn down  your chin at the utter awesomeness of this framework and how simple it makes the regular tasks of developing a PHP application.",
+      "room": "Majestic II",
+      "start_date": "2019-11-20",
+      "start_time": "10:00:00",
+      "end_date": "2017-11-20",
+      "end_time": "10:50:00",
+      "data": "",
+      "track": "Programming",
+      "lastupdated": "1510759569",
+      "level": "All Attendees",
+      "session_canceled": "N",
+      "session_active": "Y"
+    }
+
 _Use at your own risk_
 
 ## Current file architecture
@@ -21,7 +43,7 @@ _Use at your own risk_
 
 ### My Problem
 
-PouchDB is working and talking to my local CouchDB server, when the app runs, I can edit documents from Fauxton and the changes are reflexted immediately in my app.
+PouchDB is working and talking to my local CouchDB server, when the app runs, I can edit documents from Fauxton and the changes are reflected immediately in my app.
 
 The problem is that the rest of the app (my custom tabs, and bottom tabs) are non-responsive for about 30 seconds. I imagine some timeout eventually occurs, at which point I can change screens. If I go back to the Home screen (with the session list) I get the nasy red error - EventEmitter memory leak detected error message.
 
