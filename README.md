@@ -16,7 +16,8 @@ _Use at your own risk_
 - **routes.js** builds the overall navigation for the bottom TabNavigator tabs, I set the initial route to Home
 - **Home.js** is the main screen viewed when the app runs. This contains a set of custome tabs right now that breaks the app into days of the "conference" (Sunday / Monday / Tuesday). Currently I have Sunday loading my Sessions component.
 - **Sessions.js** is the main component that (for now) loads all of the sessions from the database. This contains all of the PouchDB code, handles the syncing and loading into state (not sure this is the proper thing to do yet). This renders each row by calling the SessionRow component
-- **SessionRow.js** is the component that formats and displays the various characteristics of the session into a somewhat neat flex-crazed package. -**MySessions.js** / **Attendees.js** / **Vendors.js** - these are placeholder screens that the bottom tabs link up to
+- **SessionRow.js** is the component that formats and displays the various characteristics of the session into a somewhat neat flex-crazed package.
+- **MySessions.js** / **Attendees.js** / **Vendors.js** - these are placeholder screens that the bottom tabs link up to
 
 ### My Problem
 
