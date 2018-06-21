@@ -38,8 +38,6 @@ export default class Sessions extends Component {
       docs: [],
       syncStatus: ""
     };
-
-    this.refreshData();
   }
 
   addDoc(newDoc) {
@@ -90,9 +88,9 @@ export default class Sessions extends Component {
     });
   }
 
-  //componentDidMount() {
-  //  this.refreshData();
-  //}
+  componentDidMount() {
+    this.refreshData();
+  }
 
   refreshData() {
     localDB
