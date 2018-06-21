@@ -20,7 +20,6 @@ export default class Home extends Component {
             <View title="Sunday" style={styles.content}>
               <Sessions />
             </View>
-
             {/* Second tab */}
             <View title="Monday" style={styles.content}>
               <Text style={styles.header}>Truly Native</Text>
