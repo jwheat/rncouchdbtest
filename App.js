@@ -6,7 +6,8 @@ import AppNavigator from "./routes";
 YellowBox.ignoreWarnings([
   "Warning: isMounted(...) is deprecated",
   "Module RCTImageLoader requires",
-  "Class RCTCxxModule"
+  "Class RCTCxxModule",
+  "Remote debugger"
 ]);
 
 export default function App() {

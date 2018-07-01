@@ -8,6 +8,8 @@ import Sessions from "../screens/Sessions";
 
 import config from "../utils/config.js";
 
+const days = [["dayname", "date"]];
+
 export default class Home extends Component {
   render() {
     return (
@@ -17,11 +19,11 @@ export default class Home extends Component {
         <View style={styles.tabContainer}>
           <Tabs>
             {/* First tab */}
-            <View title="Sunday" style={styles.content}>
-              <Sessions />
+            <View title={config.days[0][0]} style={styles.content}>
+              <Sessions start_date={config.days[0][1]} />
             </View>
             {/* Second tab */}
-            <View title="Monday" style={styles.content}>
+            <View title={config.days[1][0]} style={styles.content}>
               <Text style={styles.header}>Truly Native</Text>
               <Text style={styles.text}>
                 Components you define will end up rendering as native platform
@@ -29,7 +31,7 @@ export default class Home extends Component {
               </Text>
             </View>
             {/* Third tab */}
-            <View title="Tuesday" style={styles.content}>
+            <View title={config.days[2][0]} style={styles.content}>
               <Text style={styles.header}>Ease of Learning</Text>
               <Text style={styles.text}>
                 It’s much easier to read and write comparing to native

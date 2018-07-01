@@ -9,6 +9,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import Moment from "react-moment";
 
+import config from "../utils/config";
+
 export function splitPresenters(presenters) {
   return presenters.substring(0, presenters.length - 1).replace("|", "\n\n");
 }
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 5,
     marginRight: 5,
-    borderBottomColor: "#ccc",
+    borderBottomColor: config.colors.dividerColor,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   rowcanceled: {
@@ -133,8 +135,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 5,
     marginRight: 5,
-    backgroundColor: "#CD9B9B",
-    borderBottomColor: "#ccc",
+    backgroundColor: config.colors.cancelled,
+    borderBottomColor: config.colors.dividerColor,
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   timeblock: {

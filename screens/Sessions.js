@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 
-import {
-  TouchableHighlight,
-  StyleSheet,
-  Text,
-  View,
-  FlatList
-} from "react-native";
+import { TouchableHighlight, StyleSheet, View, FlatList } from "react-native";
 
 import SessionRow from "../components/SessionRow";
 
 import PouchDB from "pouchdb-react-native";
+PouchDB.plugin(require("pouchdb-find"));
+PouchDB.debug.enable("pouchdb:find");
+
 //import _ from "lodash";
 
 const syncStates = [
@@ -32,6 +29,7 @@ export default class Sessions extends Component {
       revs_limit: 1,
       auto_compaction: true
     });
+
     this.remoteDB = new PouchDB("http://localhost:5984/cs-test");
 
     this.sync = this.localDB.sync(this.remoteDB, {
@@ -45,7 +43,7 @@ export default class Sessions extends Component {
     };
   }
 
-  addDoc(newDoc) {
+  addOrUpdateDocChanges(newDoc) {
     //this.refreshData();
     let docs = [...this.state.docs];
     let index = docs.findIndex(el => el._id === newDoc._id);
@@ -80,8 +78,8 @@ export default class Sessions extends Component {
     const sortedState = []
       .concat(this.state.docs)
       .sort((a, b) => a.start_date > b.start_date)
-      .sort((a, b) => a.start_time > b.start_time)
-      .sort((a, b) => a.title > b.title);
+      .sort((a, b) => a.start_time > b.start_time);
+    //.sort((a, b) => a.title > b.title);
 
     this.setState({
       docs: sortedState
@@ -112,25 +110,84 @@ export default class Sessions extends Component {
   }
 
   displayData() {
+    if (!this.state.docs.length === 0) {
+      console.log("Empty State");
+    } else {
+      this.localDB
+        .createIndex({
+          index: {
+            fields: ["start_date", "start_time", "title"],
+            name: "sessions"
+          }
+        })
+        .then(
+          function(result) {
+            this.displaySessions();
+            console.log(result);
+          }.bind(this)
+        );
+    }
+  }
+
+  displaySessions() {
     this.localDB
-      .allDocs({ include_docs: true })
-      .then(results => {
-        this.setState({
-          docs: results.rows.map(row => row.doc)
-        });
-
-        this.sortState();
-        //console.log(results.rows.map(row => row.doc));
-        //console.log(this.state.docs);
+      .find({
+        selector: {
+          start_date: { $eq: "2019-11-19" }
+        }
+        //sort: ["start_date", "start_time", "title"],
+        //include_docs: true
       })
-      .catch(err => console.log.bind(console, "[Fetch all]"));
+      .then(
+        function(result) {
+          console.log("State");
+          console.log(this.state.docs);
+          console.log("Result");
 
-    /*
+          console.log(result);
+
+          this.setState({
+            docs: result.docs.map(row => row.doc)
+          });
+
+          //this.sortState();
+          console.log("State");
+          console.log(this.state.docs);
+        }.bind(this)
+      )
+      .catch(function(err) {
+        console.log("Error!");
+        console.log(err);
+      });
+  }
+
+  // below works without a query or filter - ALL DOCS are displayed
+  displayALLDocsData() {
+    if (!this.state.docs.length === 0) {
+      console.log("Empty State");
+    } else {
+      this.localDB
+        .allDocs({ include_docs: true })
+        .then(results => {
+          this.setState({
+            docs: results.rows.map(row => row.doc)
+          });
+
+          this.sortState();
+          //console.log(results.rows.map(row => row.doc));
+
+          console.log("State");
+          console.log(this.state.docs);
+        })
+        .catch(err => console.log.bind(console, "[Fetch all]"));
+
+      /*
     const sync = this.localDB.sync(this.remoteDB, {
       live: true,
       retry: true
     });
-*/
+    */
+    }
 
     syncStates.forEach(state => {
       this.sync.on(state, setCurrentState.bind(this, state));
@@ -138,15 +195,15 @@ export default class Sessions extends Component {
       function setCurrentState(state) {
         console.log("[Sync:" + state + "]");
 
+        //if (state === "change") {
+        //  this.refreshData();
+        //}
+
         this.setState({
           syncStatus: state
         });
       }
     });
-
-    if (this.syncStatus === "change") {
-      this.refreshData();
-    }
   }
 
   refreshData() {
@@ -212,7 +269,7 @@ export default class Sessions extends Component {
     if (doc._deleted) {
       this.removeDoc(doc);
     } else {
-      this.addDoc(doc);
+      this.addOrUpdateDocChanges(doc);
     }
   }
 

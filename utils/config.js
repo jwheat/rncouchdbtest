@@ -15,12 +15,18 @@ export default {
     accentColor: "#FFC107",
     primaryText: "#212121",
     secondaryText: "#757575",
-    dividerColor: "#BDBDBD"
+    dividerColor: "#BDBDBD",
+    cancelled: "#CD9B9B"
   },
   client: {
     clientName: "PABUG",
     clientEventName: " PABUG 2018",
     clientLogo: "logo.png",
     vendorText: "Vendors"
-  }
+  },
+  days: [
+    ["Monday", "2019-11-19"],
+    ["Tuesday", "2019-11-20"],
+    ["Wednesday", "2019-11-20"]
+  ]
 };
