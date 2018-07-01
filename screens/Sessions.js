@@ -133,25 +133,25 @@ export default class Sessions extends Component {
     this.localDB
       .find({
         selector: {
-          start_date: { $eq: "2019-11-19" }
+          start_date: { $eq: this.props.start_date }
         }
         //sort: ["start_date", "start_time", "title"],
         //include_docs: true
       })
       .then(
         function(result) {
-          console.log("State");
+          console.log("State 1");
           console.log(this.state.docs);
-          console.log("Result");
+          console.log("Result 1");
 
           console.log(result);
 
           this.setState({
-            docs: result.docs.map(row => row.doc)
+            docs: result.docs.map(row => row)
           });
 
           //this.sortState();
-          console.log("State");
+          console.log("State 2");
           console.log(this.state.docs);
         }.bind(this)
       )
@@ -162,13 +162,23 @@ export default class Sessions extends Component {
   }
 
   // below works without a query or filter - ALL DOCS are displayed
-  displayALLDocsData() {
+  xdisplaySessions() {
     if (!this.state.docs.length === 0) {
       console.log("Empty State");
     } else {
       this.localDB
         .allDocs({ include_docs: true })
         .then(results => {
+          console.log("Results (for all)");
+          /*
+              {total_rows: 20, offset: 0, rows: Array(14)}
+              offset:0
+              rows:Array(14)
+              0:{id: "300", key: "300", value: {…}, doc: {…}}
+              1:{id: "301", key: "301", value: {…}, doc: {…}}          
+            */
+          console.log(results.rows.length); // = 14
+          console.log(results);
           this.setState({
             docs: results.rows.map(row => row.doc)
           });
@@ -176,7 +186,7 @@ export default class Sessions extends Component {
           this.sortState();
           //console.log(results.rows.map(row => row.doc));
 
-          console.log("State");
+          console.log("State (for all)");
           console.log(this.state.docs);
         })
         .catch(err => console.log.bind(console, "[Fetch all]"));
