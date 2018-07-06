@@ -7,6 +7,7 @@ import {
 } from "react-native";
 
 import config from "../utils/config.js";
+import Sessions from "../screens/Sessions";
 
 export default class Tabs extends Component {
   // Initialize State
@@ -42,6 +43,7 @@ export default class Tabs extends Component {
         {/* Content */}
         <View style={styles.contentContainer}>
           {children[this.state.activeTab]}
+          {console.log("Active tab " + this.state.activeTab)}
         </View>
       </View>
     );

@@ -27,6 +27,6 @@ export default {
   days: [
     ["Monday", "2019-11-19"],
     ["Tuesday", "2019-11-20"],
-    ["Wednesday", "2019-11-20"]
+    ["Wednesday", "2019-11-21"]
   ]
 };

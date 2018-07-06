@@ -170,13 +170,7 @@ export default class Sessions extends Component {
         .allDocs({ include_docs: true })
         .then(results => {
           console.log("Results (for all)");
-          /*
-              {total_rows: 20, offset: 0, rows: Array(14)}
-              offset:0
-              rows:Array(14)
-              0:{id: "300", key: "300", value: {…}, doc: {…}}
-              1:{id: "301", key: "301", value: {…}, doc: {…}}          
-            */
+
           console.log(results.rows.length); // = 14
           console.log(results);
           this.setState({

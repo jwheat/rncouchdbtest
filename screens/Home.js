@@ -24,19 +24,11 @@ export default class Home extends Component {
             </View>
             {/* Second tab */}
             <View title={config.days[1][0]} style={styles.content}>
-              <Text style={styles.header}>Truly Native</Text>
-              <Text style={styles.text}>
-                Components you define will end up rendering as native platform
-                widgets
-              </Text>
+              <Sessions start_date={config.days[1][1]} />
             </View>
             {/* Third tab */}
             <View title={config.days[2][0]} style={styles.content}>
-              <Text style={styles.header}>Ease of Learning</Text>
-              <Text style={styles.text}>
-                It’s much easier to read and write comparing to native
-                platform’s code
-              </Text>
+              <Sessions start_date={config.days[2][1]} />
             </View>
           </Tabs>
         </View>
