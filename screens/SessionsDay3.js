@@ -21,7 +21,7 @@ const syncStates = [
 
 const keyExtractor = ({ _id }) => _id;
 
-export default class Sessions extends Component {
+export default class SessionsDay3 extends Component {
   constructor(props) {
     super(props);
 
@@ -141,29 +141,19 @@ export default class Sessions extends Component {
       })
       .then(
         function(result) {
-          console.log("stateindex");
-          console.log(this.props.stateindex);
           console.log("State 1");
           console.log(this.state.docs);
           console.log("Result 1");
 
           console.log(result);
 
-          const newDocs = {};
-          newDocs[this.props.stateindex] = result.docs.map(row => row);
-
-          console.log("newDocs");
-          console.log(newDocs);
-
-          this.setState(newDocs);
-
-          //this.setState({
-          //  docs: result.docs.map(row => row)
-          //});
+          this.setState({
+            docs: result.docs.map(row => row)
+          });
 
           //this.sortState();
           console.log("State 2");
-          console.log(this.state.docs[this.props.stateindex]);
+          console.log(this.state.docs);
         }.bind(this)
       )
       .catch(function(err) {

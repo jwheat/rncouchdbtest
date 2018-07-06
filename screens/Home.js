@@ -6,6 +6,10 @@ import HomeContent from "../components/HomeContent.js";
 import Tabs from "../components/Tabs.js";
 import Sessions from "../screens/Sessions";
 
+import SessionsDay1 from "../screens/SessionsDay1";
+import SessionsDay2 from "../screens/SessionsDay2";
+import SessionsDay3 from "../screens/SessionsDay3";
+
 import config from "../utils/config.js";
 
 const days = [["dayname", "date"]];
@@ -20,15 +24,15 @@ export default class Home extends Component {
           <Tabs>
             {/* First tab */}
             <View title={config.days[0][0]} style={styles.content}>
-              <Sessions start_date={config.days[0][1]} />
+              <SessionsDay1 start_date={config.days[0][1]} />
             </View>
             {/* Second tab */}
             <View title={config.days[1][0]} style={styles.content}>
-              <Sessions start_date={config.days[1][1]} />
+              <SessionsDay2 start_date={config.days[1][1]} />
             </View>
             {/* Third tab */}
             <View title={config.days[2][0]} style={styles.content}>
-              <Sessions start_date={config.days[2][1]} />
+              <SessionsDay3 start_date={config.days[2][1]} />
             </View>
           </Tabs>
         </View>
